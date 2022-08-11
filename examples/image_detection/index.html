@@ -19,7 +19,7 @@
 		</div>
 		<div id="description">
 			<h2>ARKit 1.5 Image Detection Example</h2>
-			<p>This sample automatically creates and activates a reference image, and places an anchored midtown when it's detected.  Print midtown.png so that it's 20cm wide.</p>
+			<p>This version detects the Midtown marker and displays the building on it, and locks it in place.</p>
 		</div>
 		<button type=button id=go-button>Go</button>
 		<br>
@@ -65,7 +65,8 @@
 					midtown = new THREE.Group();
 					midtown.name = 'Midtown group';
 					const midtownNode = gltf.scene;
-					midtownNode.position.set(0, -0.01, 0);
+					midtownNode.position.set(0, 0, 0);
+					midtownNode.rotation.y = Math.PI / 2
 					midtown.add(midtownNode);
 					midtownCreated = true;
 				},
