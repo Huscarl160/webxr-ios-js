@@ -14,12 +14,12 @@
 		<script src="../libs/three-web-layer.umd.js"></script>
 	</head>
 	<body>
-		<div id="hubs" style="width: 100px; display: none">
-			<img id="hubs-image" src="hubs.png" >
+		<div id="midtown" style="width: 100px; display: none">
+			<img id="midtown-image" src="midtown.jpg" >
 		</div>
 		<div id="description">
 			<h2>ARKit 1.5 Image Detection Example</h2>
-			<p>This sample automatically creates and activates a reference image, and places an anchored ducky when it's detected.  Print hubs.png so that it's 20cm wide.</p>
+			<p>This sample automatically creates and activates a reference image, and places an anchored midtown when it's detected.  Print midtown.png so that it's 20cm wide.</p>
 		</div>
 		<button type=button id=go-button>Go</button>
 		<br>
@@ -51,23 +51,23 @@
 			let ambientLight = null;
 			let directionalLight = null;
 
-			let duckyCreated = false;
+			let midtownCreated = false;
 			let imageDetectionCreationRequested = false;
 			let imageActivateDetection = false;
 			let imageActivated = false;
 			let imageAnchor = null;
 
-			let ducky = new THREE.Group();
-			ducky.name = 'Duck group';
+			let midtown = new THREE.Group();
+			midtown.name = 'Midtown group';
 			const loader = new THREE.GLTFLoader().setPath('./');
-			loader.load('DuckyMesh.glb',
+			loader.load('Midtown3ft.glb',
 				gltf => {
-					ducky = new THREE.Group();
-					ducky.name = 'Duck group';
-					const duckyNode = gltf.scene;
-					duckyNode.position.set(0, -0.01, 0);
-					ducky.add(duckyNode);
-					duckyCreated = true;
+					midtown = new THREE.Group();
+					midtown.name = 'Midtown group';
+					const midtownNode = gltf.scene;
+					midtownNode.position.set(0, -0.01, 0);
+					midtown.add(midtownNode);
+					midtownCreated = true;
 				},
 				null,  // progress callback
 				e => {
@@ -169,7 +169,7 @@
 			// Called once per frame, before render, to give the app a chance to update this.scene
 			const updateScene = frame => {
 				stats.update();
-				const hubsImageName = 'hubs';
+				const midtownImageName = 'midtown';
 
 				frame.getGlobalLightEstimate().then(lightProbe => {
 					const ambientIntensity = lightProbe.indirectIrradiance; // @TODO: Fix me
@@ -177,11 +177,11 @@
 					directionalLight.intensity = ambientIntensity * 0.5;
 				});
 
-				if (!imageDetectionCreationRequested && duckyCreated) {
+				if (!imageDetectionCreationRequested && midtownCreated) {
 					imageDetectionCreationRequested = true;
-					let hubsImageData = getImageData('hubs-image');
+					let midtownImageData = getImageData('midtown-image');
 
-					session.nonStandard_createDetectionImage(hubsImageName, hubsImageData.data, hubsImageData.width, hubsImageData.height, 0.2).then(() => {
+					session.nonStandard_createDetectionImage(midtownImageName, midtownImageData.data, midtownImageData.width, midtownImageData.height, 0.2).then(() => {
 
 						// TODO:  Can't do any of this until we can put a DOM Overlay in place.
 						//
@@ -191,17 +191,17 @@
 						// document.getElementById('reset').appendChild(resetButton);
 						// resetButton.addEventListener('click', ev => {
 						// 	imageActivateDetection = true;
-						// 	//engine.removeAnchoredNode(ducky)
+						// 	//engine.removeAnchoredNode(midtown)
 						// 	if (imageAnchor) {
 						// 		imageAnchor.detach();
-						// 		engine.removeAnchoredNode(ducky);
+						// 		engine.removeAnchoredNode(midtown);
 						// 		imageAnchor = null;
 						// 	}
 						// });
 						// ready to go!
 						imageActivateDetection = true;
 					}).catch(error => {
-						console.error(`error creating ducky detection image: ${error}`)
+						console.error(`error creating midtown detection image: ${error}`)
 					});
 				}
 
@@ -209,16 +209,16 @@
 					imageActivated = true;
 					imageActivateDetection = false;
 
-					session.nonStandard_activateDetectionImage(hubsImageName).then(anchor => {
+					session.nonStandard_activateDetectionImage(midtownImageName).then(anchor => {
 						imageActivated = false;
 						imageAnchor = anchor;
 						imageAnchor.addEventListener('remove', event => {
 							imageActivated = false;
 						});
-						engine.addAnchoredNode(imageAnchor, ducky);
+						engine.addAnchoredNode(imageAnchor, midtown);
 					}).catch(error => {
 						imageActivated = false;
-						console.error(`error activating ducky detection image: ${error}`);
+						console.error(`error activating midtown detection image: ${error}`);
 					});
 				}
 			};
