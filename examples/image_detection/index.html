@@ -18,7 +18,7 @@
 			<img id="midtown-image" src="midtown.jpg" >
 		</div>
 		<div id="description">
-			<h2>ARKit 1.5 Image Detection Example (4)</h2>
+			<h2>ARKit 1.5 Image Detection Example</h2>
 			<p>This version detects the Midtown marker and displays the building on it, and locks it in place.</p>
 		</div>
 		<button type=button id=go-button>Go</button>
@@ -66,8 +66,9 @@
 					midtown.name = 'Midtown group';
 					const midtownNode = gltf.scene;
 					midtownNode.position.set(0, 0, 0);
+					// midtownNode.rotation.x = Math.PI / 90;
 					midtownNode.rotation.y = Math.PI / 90;
-					midtownNode.rotation.x = Math.PI / 90;
+					midtownNode.rotation.z = Math.PI / 90;
 					midtown.add(midtownNode);
 					midtownCreated = true;
 				},
